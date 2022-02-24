@@ -18,6 +18,7 @@ services:
       - web-db-net
   testlink:
     image: docker.io/bitnami/testlink:1
+    container_name: 'testlink'
     ports:
       - '8080:8080'
       - '8443:8443'
