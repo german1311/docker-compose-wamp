@@ -8,7 +8,7 @@ services:
     restart: 'always'
     ports:
       - "80:80"
-      - "443:443"    
+      - "443:443"
     volumes:
       - ${DOCUMENT_ROOT-./www}:/var/www/html
       - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
@@ -16,5 +16,28 @@ services:
       - ${LOG_DIR-./logs/apache2}:/var/log/apache2
     networks:
       - web-db-net
+  testlink:
+    image: docker.io/bitnami/testlink:1
+    ports:
+      - '80:8080'
+      - '443:8443'
+    environment:
+      - TESTLINK_DATABASE_HOST=129.158.63.139
+      - TESTLINK_DATABASE_PORT_NUMBER=3306
+      - TESTLINK_DATABASE_USER=root
+      - TESTLINK_DATABASE_NAME=bitnami_testlink
+      - TESTLINK_DATABASE_PASSWORD_FILE=/run/secrets/db_password
+    volumes:
+      - 'testlink_data:/bitnami/testlink'
+    secrets:
+       - db_password
+secrets:
+   db_password:
+     file: db_password.txt
 networks:
   web-db-net:
+volumes:
+  mariadb_data:
+    driver: local
+  testlink_data:
+    driver: local
