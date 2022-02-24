@@ -8,9 +8,7 @@ services:
     restart: 'always'
     ports:
       - "80:80"
-      - "443:443"
-    links:
-      - mysql
+      - "443:443"    
     volumes:
       - ${DOCUMENT_ROOT-./www}:/var/www/html
       - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
