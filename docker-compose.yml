@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  webserver:
+  wamp:
     build:
       context: ./bin/webserver
     container_name: 'my-webserver'
@@ -16,29 +16,5 @@ services:
       - ${LOG_DIR-./logs/apache2}:/var/log/apache2
     networks:
       - web-db-net
-  testlink:
-    image: docker.io/bitnami/testlink:1
-    container_name: 'testlink'
-    ports:
-      - '8080:8080'
-      - '8443:8443'
-    environment:
-      - TESTLINK_DATABASE_HOST=129.158.63.139
-      - TESTLINK_DATABASE_PORT_NUMBER=3306
-      - TESTLINK_DATABASE_USER=root
-      - TESTLINK_DATABASE_NAME=bitnami_testlink
-      - TESTLINK_DATABASE_PASSWORD_FILE=/run/secrets/db_password
-    volumes:
-      - 'testlink_data:/bitnami/testlink'
-    secrets:
-       - db_password
-secrets:
-   db_password:
-     file: db_password.txt
 networks:
   web-db-net:
-volumes:
-  mariadb_data:
-    driver: local
-  testlink_data:
-    driver: local
